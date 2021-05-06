@@ -1,0 +1,210 @@
+create TABLE users_tbl (
+    usersID int(4) not null PRIMARY KEY AUTO_INCREMENT,
+    employeeID int(4) not null,
+    username varchar(30) not null,
+    password varchar(60) not null,
+    roleID int(4) not null,
+    email varchar(50) not null,
+    employeeName varchar(100) not null,
+    position varchar(50) not null,
+    is_PwChanged int(1) not null
+);
+
+
+create TABLE employee_tbl (
+    employeeID int(4) not null PRIMARY KEY AUTO_INCREMENT,
+    firstName varchar(40) not null,
+    middleName varchar(40) not null,
+    surname varchar(40) not null,
+    employeeName varchar(120) not null,
+    gender varchar(6) not null,
+    birthday varchar(20) not null,
+    age int(3) not null,
+    contactNumber varchar(15) not null,
+    email varchar(50) not null,
+    address varchar(120) not null,
+    position varchar(50) not null,
+    dateHired varchar(20) not null,
+    shiftSched varchar(50) not null,
+    status varchar(50) null,
+    employmentStatus varchar(20) null
+);
+
+
+create TABLE employeeArchived_tbl (
+    employeeID int(4) not null PRIMARY KEY AUTO_INCREMENT,
+    firstName varchar(40) not null,
+    middleName varchar(40) not null,
+    surname varchar(40) not null,
+    employeeName varchar(120) not null,
+    gender varchar(6) not null,
+    birthday varchar(20) not null,
+    age int(3) not null,
+    contactNumber varchar(15) not null,
+    email varchar(50) not null,
+    address varchar(120) not null,
+    position varchar(50) not null,
+    dateHired varchar(20) not null,
+    shiftSched varchar(50) not null,
+    status varchar(50) null,
+    employmentStatus varchar(20) null
+);
+
+create TABLE userlogs_tbl (
+    logID int(8) not null PRIMARY KEY AUTO_INCREMENT,
+    userID int(4) not null,
+    employeeName varchar(120) not null,
+    username varchar(30) not null,
+    activity varchar(200) not null,
+    dateAndTime varchar(50) not null
+);
+
+create TABLE role_tbl (
+    roleID int(3) not null PRIMARY KEY AUTO_INCREMENT,
+    roleName varchar(50) not null,
+    roleDescription varchar(300) not null
+);
+
+create TABLE permission_tbl (
+    permissionID int(3) not null PRIMARY KEY AUTO_INCREMENT,
+    roleID int(3) not null,
+    userID int(4) null,
+    user_add varchar(5) null,
+    user_view varchar(5) null,
+    user_manage varchar(5) null,
+    user_logs varchar(5) null,
+    user_role varchar(5) null,
+    employee_add varchar(5) null,
+    employee_view varchar(5) null,
+    employee_manage varchar(5) null,
+);
+
+
+
+
+=======================================================================
+===			From Admin LTE 3 migration		    ===
+=======================================================================
+
+
+
+
+create TABLE userlogs_tbl (
+    logID int(8) not null PRIMARY KEY AUTO_INCREMENT,
+    userID int(4) not null,
+    fullName varchar(120) not null,
+    username varchar(30) not null,
+    activity varchar(200) not null,
+    dateAndTime varchar(50) not null
+);
+
+
+
+create TABLE role_tbl (
+    roleID int(3) not null PRIMARY KEY AUTO_INCREMENT,
+    roleName varchar(50) not null,
+    roleDescription varchar(300) not null
+);
+
+
+
+create TABLE permission_tbl (
+    permissionID int(3) not null PRIMARY KEY AUTO_INCREMENT,
+    roleID int(3) not null,
+    userID int(4) null,
+    user_add varchar(5) null,
+    user_view varchar(5) null,
+    user_manage varchar(5) null,
+    user_role varchar(5) null,
+    user_logs varchar(5) null,
+    user_updateInfo varchar(5) null,
+    outlet_suplist varchar(5) null,
+    outlet_reqsup varchar(5) null,
+    outlet_resitem varchar(5) null,
+    outlet_pendingrestock varchar(5) null,
+    warehouse_regitem varchar(5) null,
+    warehouse_setupitem varchar(5) null,
+    warehouse_suplist varchar(5) null,
+    warehouse_encreqsup varchar(5) null,
+    warehouse_encdel varchar(5) null,
+    warehouse_mngdel varchar(5) null,
+    warehouse_resreq varchar(5) null,
+    asset_addnew varchar(5) null,
+    asset_mngasset varchar(5) null,
+    asset_disposed varchar(5) null,
+    report_assets varchar(5) null,
+    report_cons varchar(5) null,
+    report_delsupplies varchar(5) null,
+    report_delhistory varchar(5) null,
+    report_userlogs varchar(5) null,
+    settings_assetsubcat varchar(5) null,
+    settings_outletemail varchar(5) null,
+    settings_whemail varchar(5) null,
+    settings_supplier varchar(5) null,
+    settings_dept varchar(5) null,
+    settings_location varchar(5) null
+);
+
+
+create TABLE building_tbl (
+    bldgID int(3) not null PRIMARY KEY AUTO_INCREMENT,
+    bldgName varchar(70) not null,
+    bldgShortName varchar(10) not null,
+    bldgNotes varchar(100) null
+);
+
+
+create TABLE room_tbl (
+    roomID int(4) not null PRIMARY KEY AUTO_INCREMENT,
+    bldgID int(4) not null,
+    bldgName varchar(30) not null,
+    roomName varchar(20) not null,
+    locationName varchar(20) not null,
+    roomNotes varchar(100) null
+);
+
+
+create TABLE department_tbl (
+    deptID int(3) not null PRIMARY KEY AUTO_INCREMENT,
+    deptName varchar(70) not null,
+    deptShortName varchar(10) not null,
+    deptNotes varchar(100) null
+);
+
+
+
+***Note: On category_tbl, change:
+	categoryname to categoryName
+	add column: categoryNotes (varchar 100 null)
+
+
+***Note: On subcategory_tbl, change:
+	categoryname to categoryName
+	subcategoryname to subcategoryName
+	add column: subcatNotes (varchar 100 null)
+
+***Note: On users_tbl, change:
+	edit department, update user role
+
+***Note: replaced department value with department ID on assets_tbl
+	change life in years data size to varchar(30) instead of 10
+
+
+*** Update users_tbl set is_password_changed = replace(is_password_changed, '0', '1');
+
+
+update number of items per location (admin button)
+
+ready the renaming function for incorrect location
+
+*** Change the deliveredsupplies_tbl ID into autoincrement, add totalAmount
+*** Rename the delivereditem_tbl ID into dlvrdItemID, move the productID above 
+*** update the item, stocksfull, type in the delivereditem_tbl into null= Yes, default=NULL, deliveredSupID into INT
+*** update warehousestocks_tbl set type and itemname to NULL default
+*** add year column on rqstedItem_tbl
+*** change department varchar to 50
+
+
+Update assets_tbl set location = replace(location, 'ALC', 'Asian Leadership Center');
+
+tag num: 20-593
